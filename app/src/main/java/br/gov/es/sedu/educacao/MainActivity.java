@@ -68,6 +68,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class MyWebViewClient extends WebViewClient {
+        
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            view.loadUrl(
+                    "javascript:(function f() {" +
+                    "var email = document.getElementsByName('identifier');" +
+                    "email[0].oninput = function(value) {" +
+                    "if(!/^\\w+([\\.-]?\\w+)*(@)?((e(d(u(c(a(d(o(r)?)?)?)?)?)?)?)?|(a(l(u(n(o)?)?)?)?))?(\\.)?(e(d(u(\\.(e(s(\\.(g(o(v(\\.(b(r)?)?)?)?)?)?)?)?)?)?)?)?)?$/.test(email[0].value)){" +
+                    "email[0].value = '';" +
+                    "email.parentNode.parentNode.parentNode.insertAdjacentHTML('afterend', 'Apenas domínio edu.es.gov.br!');" +
+                    "return false;" +
+                    "}" +
+                    "}" +
+                    "})()");
+        }
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView webView, String url) {
