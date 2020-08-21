@@ -1,15 +1,12 @@
-package br.gov.es.sedu.educacao;
+package br.gov.sp.sedu.bertioga;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.JsonReader;
-import android.util.JsonToken;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -19,9 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.datami.smi.SdState;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.StringReader;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;

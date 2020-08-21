@@ -1,4 +1,4 @@
-package br.gov.es.sedu.educacao;
+package br.gov.sp.sedu.bertioga;
 
 import android.content.Context;
 

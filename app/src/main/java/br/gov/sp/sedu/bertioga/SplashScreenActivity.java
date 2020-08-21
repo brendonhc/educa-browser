@@ -1,16 +1,15 @@
-package br.gov.es.sedu.educacao;
+package br.gov.sp.sedu.bertioga;
 
 import android.annotation.SuppressLint;
-
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.datami.smi.SdState;
 import com.datami.smi.SdStateChangeListener;
@@ -19,9 +18,9 @@ import com.datami.smi.SmiSdk;
 import com.google.android.play.core.appupdate.AppUpdateInfo;
 import com.google.android.play.core.appupdate.AppUpdateManager;
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
-import com.google.android.play.core.install.model.AppUpdateType;
 import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.android.play.core.tasks.Task;
+
 import static com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE;
 
 /**

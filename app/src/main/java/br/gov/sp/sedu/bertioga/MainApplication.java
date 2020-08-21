@@ -1,8 +1,7 @@
-package br.gov.es.sedu.educacao;
+package br.gov.sp.sedu.bertioga;
 
 import android.app.Application;
 import android.content.Context;
-import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
