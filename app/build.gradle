@@ -1,0 +1,117 @@
+apply plugin: "com.android.application"
+
+import com.android.build.OutputFile
+
+/**
+ * Set this to true to create two separate APKs instead of one:
+ *   - An APK that only works on ARM devices
+ *   - An APK that only works on x86 devices
+ * The advantage is the size of the APK is reduced by about 4MB.
+ * Upload all the APKs to the Play Store and people will download
+ * the correct one based on the CPU architecture of their device.
+ */
+def enableSeparateBuildPerCPUArchitecture = false
+
+/**
+ * Run Proguard to shrink the Java bytecode in release builds.
+ */
+def enableProguardInReleaseBuilds = false
+
+/**
+ * The preferred build flavor of JavaScriptCore.
+ *
+ * For example, to use the international variant, you can use:
+ * `def jscFlavor = 'org.webkit:android-jsc-intl:+'`
+ *
+ * The international variant includes ICU i18n library and necessary data
+ * allowing to use e.g. `Date.toLocaleString` and `String.localeCompare` that
+ * give correct results when using with locales other than en-US.  Note that
+ * this variant is about 6MiB larger per architecture than default.
+ */
+def jscFlavor = 'org.webkit:android-jsc:+'
+
+android {
+    compileSdkVersion 29
+    dexOptions {
+        javaMaxHeapSize "3g"
+    }
+
+
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        applicationId "br.gov.sp.sedu.bertioga"
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0.0"
+        multiDexEnabled true
+    }
+
+    splits {
+        abi {
+            reset()
+            enable enableSeparateBuildPerCPUArchitecture
+            universalApk false  // If true, also generate a universal APK
+            include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
+        }
+    }
+    signingConfigs {
+        release {
+            if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
+                storeFile file(MYAPP_UPLOAD_STORE_FILE)
+                storePassword MYAPP_UPLOAD_STORE_PASSWORD
+                keyAlias MYAPP_UPLOAD_KEY_ALIAS
+                keyPassword MYAPP_UPLOAD_KEY_PASSWORD
+            }
+        }
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
+        release {
+            // Caution! In production, you need to generate your own keystore file.
+            // see https://facebook.github.io/react-native/docs/signed-apk-android.
+            signingConfig signingConfigs.release
+            minifyEnabled enableProguardInReleaseBuilds
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+    }
+    // applicationVariants are e.g. debug, release
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            // For each separate APK per architecture, set a unique version code as described here:
+            // https://developer.android.com/studio/build/configure-apk-splits.html
+            def versionCodes = ["armeabi-v7a": 1, "x86": 2, "arm64-v8a": 3, "x86_64": 4]
+            def abi = output.getFilter(OutputFile.ABI)
+            if (abi != null) {  // null for the universal-debug, universal-release variants
+                output.versionCodeOverride =
+                        versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
+            }
+
+        }
+    }
+
+    packagingOptions {
+        pickFirst '**/armeabi-v7a/libc++_shared.so'
+        pickFirst '**/x86/libc++_shared.so'
+        pickFirst '**/arm64-v8a/libc++_shared.so'
+        pickFirst '**/x86_64/libc++_shared.so'
+        pickFirst '**/x86/libjsc.so'
+        pickFirst '**/armeabi-v7a/libjsc.so'
+    }
+
+    dependencies {
+        implementation 'androidx.appcompat:appcompat:1.0.0'
+        implementation 'com.datami:smisdk:+'
+    }
+}
+
+dependencies {
+    implementation 'com.google.android.play:core:1.6.4'
+}
